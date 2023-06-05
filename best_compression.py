@@ -58,7 +58,7 @@ def best_image(input_image, size_lim, DWTstages_list, DWTblocksize_list, DWTRise
     #DWT methods 
     ### nested for loops iterating through stages list, block size list and rise ratio list, each time record image parameters 
     # initialise list to append each combination for comparison. list of lists of (title, reconstructed image, size, step size, error, SSIM, DWTstages, DWTblocksize, DWTriseratio)
-    DWT_combinations_list = [] 
+    DWT_combinations_list = []
 
     for DWTstages in DWTstages_list:
         for DWTblocksize in DWTblocksize_list:
@@ -97,23 +97,27 @@ def best_image(input_image, size_lim, DWTstages_list, DWTblocksize_list, DWTRise
 lighthouse, _ = load_mat_img(img='lighthouse.mat', img_info='X')
 bridge, _ = load_mat_img(img='bridge.mat', img_info='X')
 flamingo, _ = load_mat_img(img='flamingo.mat', img_info='X')
+comp23, _ = load_mat_img(img = 'SF2_competition_image_2023.mat', img_info='X')
 
 lighthouse = lighthouse - 128.0
 bridge = bridge - 128.0
 flamingo = flamingo - 128.0
+comp23 = comp23 - 128.0 
 
-image = lighthouse # flamingo breaks variation of LBT and DWT
+image = comp23 # flamingo breaks variation of LBT and DWT
 size_lim = 40906 - 1440 - 5
 
 
 #make lists for iteration 
-DWTstages_list = [1,2,3,4]
-DWTblocksize_list = [8, 16]
-DWTRiseRatio_list = [0.5, 0.68]
+DWTstages_list = [3,4,5,6]
+DWTblocksize_list = [8, 16, 32]
+DWTRiseRatio_list = [0.5, 0.68, 1, 1.2,1.3,1.4,1.5,1.75,2]
 
 DWTparamslist = best_image(input_image = image, size_lim = size_lim, DWTstages_list = DWTstages_list, DWTblocksize_list = DWTblocksize_list, DWTRiseRatio_list = DWTRiseRatio_list)
-print(DWTparamslist)
+# print(DWTparamslist)
 print('------------')
 
-print(f'This should be all 16 SSIMs: {DWTparamslist[:][5]}')
+for i in DWTparamslist: 
+    print( i[5])
+# print(f'This should be all 16 SSIMs: {DWTparamslist[:][5]}')
  # expecting 4x2x2 = 16
